@@ -31,7 +31,7 @@ PRIMARY KEY (build, number)
 #	with seq as the primary key
 CREATE TABLE Reserved_Rooms(
 seq INT NOT NULL,
-date DATE,
+date VARCHAR(11),
 begin INT,
 end INT,
 user_id INT,
@@ -57,9 +57,8 @@ INSERT INTO Rooms VALUES
 #Inserts the following tuples into the Reserved_Rooms table
 INSERT INTO Reserved_Rooms VALUES
 #both ways of inputting date are wrong
-#(1, 2016-03-20, 08, 09, 1, "PPHAC", 113),
-#(1, 1992, 08, 09, 1, "PPHAC", 113),
-(2, 2016-04-01, 08, 10, 2, "PPHAC", 114);
+(1, "2016-03-20", 08, 09, 1, "PPHAC", 113),
+(2, "2016-04-01", 08, 10, 2, "PPHAC", 114);
 
 #Creates View, ReservationsView
 #	Lists all reservations and user names
@@ -75,7 +74,7 @@ CREATE VIEW ReservationsView AS
 			INNER JOIN
 		Users u ON rr.user_id = u.id
 	ORDER BY
-		rr.seq DESC;
+		rr.seq ASC;
 
 
 #Part 2 - Room Reservation System
