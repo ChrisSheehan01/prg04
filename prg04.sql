@@ -2,16 +2,13 @@
 #April 3, 2016
 #Programming Assignment 4
 
+DROP DATABASE IF EXISTS prg04;
+
 #Creates a Database called "prg04"
 CREATE DATABASE prg04;
 
 #Chooses the Database "prg04" as the Database to use
 USE prg04;
-
-#Removes any existing tables called ""
-DROP TABLE USERS;
-DROP TABLE ROOMS;
-DROP TABLE RESERVED_ROOMS;
 
 #Part I - Data Model
 #Creates the table Users 
