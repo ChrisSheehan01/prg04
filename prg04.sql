@@ -79,3 +79,5 @@ CREATE VIEW ReservationsView AS
 
 
 #Part 2 - Room Reservation System
+#1. List Reservations
+SELECT * FROM ReservationsView;
