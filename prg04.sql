@@ -35,11 +35,11 @@ date VARCHAR(11),
 begin INT,
 end INT,
 user_id INT,
-roomNum INT,
 build VARCHAR(10),
-#FOREIGN KEY (user_id) REFERENCES Users (id),
+roomNum INT,
+FOREIGN KEY (user_id) REFERENCES Users (id),
 #FOREIGN KEY (roomNum) REFERENCES Rooms (number),
-#FOREIGN KEY (build) REFERENCES Rooms (build),
+FOREIGN KEY (build) REFERENCES Rooms (build),
 PRIMARY KEY (seq)
 );
 
