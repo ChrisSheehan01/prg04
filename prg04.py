@@ -1,38 +1,20 @@
-#Connect to sql file
-
-#CONNECTING
+#connecting to database
 import mysql.connector
-#from mysql.connector import errorcode
-#import datetime
-#date_time = datetime.strfttime('%a %b %d %H:%M:%S %Y')
-
 cnx = mysql.connector.connect(user='root', password='',
-                                host='127.0.0.1',
-                                database='prg03')
+                              host='127.0.0.1',
+                              database='prg04')
 
-#ERROR HANDLING
-# try:
-#   cnx = mysql.connector.connect(user='root@localhost', password='',
-#                                 host='127.0.0.1',
-#                                 database='prg03')
-# except mysql.connector.Error as err:
-#   if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-#     print("Something is wrong with your user name or password")
-#   elif err.errno == errorcode.ER_BAD_DB_ERROR:
-#     print("Database does not exist")
-#   else:
-#     print(err)
-# else:
-#   cnx.close()
+try:
+   cursor = cnx.cursor()
+   cursor.execute("""
+      select 3 from your_table
+   """)
+   result = cursor.fetchall()
+   print result
+finally:
+    cnx.close()
 
 cursor = cnx.cursor()
-
-
-
-
-
-
-
 
 
 #1. List Reservation
