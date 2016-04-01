@@ -2,16 +2,13 @@
 #April 3, 2016
 #Programming Assignment 4
 
+DROP DATABASE IF EXISTS prg04;
+
 #Creates a Database called "prg04"
 CREATE DATABASE prg04;
 
 #Chooses the Database "prg04" as the Database to use
 USE prg04;
-
-#Removes any existing tables called ""
-DROP TABLE USERS;
-DROP TABLE ROOMS;
-DROP TABLE RESERVED_ROOMS;
 
 #Part I - Data Model
 #Creates the table Users 
@@ -34,7 +31,7 @@ PRIMARY KEY (build, number)
 #	with seq as the primary key
 CREATE TABLE Reserved_Rooms(
 seq INT NOT NULL,
-date DATE,
+date VARCHAR(11),
 begin INT,
 end INT,
 user_id INT,
@@ -60,9 +57,8 @@ INSERT INTO Rooms VALUES
 #Inserts the following tuples into the Reserved_Rooms table
 INSERT INTO Reserved_Rooms VALUES
 #both ways of inputting date are wrong
-#(1, 2016-03-20, 08, 09, 1, "PPHAC", 113),
-#(1, 1992, 08, 09, 1, "PPHAC", 113),
-(2, 2016-04-01, 08, 10, 2, "PPHAC", 114);
+(1, "2016-03-20", 08, 09, 1, "PPHAC", 113),
+(2, "2016-04-01", 08, 10, 2, "PPHAC", 114);
 
 #Creates View, ReservationsView
 #	Lists all reservations and user names
@@ -78,7 +74,7 @@ CREATE VIEW ReservationsView AS
 			INNER JOIN
 		Users u ON rr.user_id = u.id
 	ORDER BY
-		rr.seq DESC;
+		rr.seq ASC;
 
 
 #Part 2 - Room Reservation System
