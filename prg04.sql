@@ -31,13 +31,14 @@ PRIMARY KEY (build, number)
 #	with seq as the primary key
 CREATE TABLE Reserved_Rooms(
 seq INT NOT NULL,
-date VARCHAR(11),
+date DATE,
 begin INT,
 end INT,
 user_id INT,
 build VARCHAR(10),
 roomNum INT,
 FOREIGN KEY (user_id) REFERENCES Users (id),
+#impossible
 #FOREIGN KEY (roomNum) REFERENCES Rooms (number),
 FOREIGN KEY (build) REFERENCES Rooms (build),
 PRIMARY KEY (seq)
