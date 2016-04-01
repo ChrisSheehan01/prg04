@@ -27,6 +27,8 @@ number INT NOT NULL,
 PRIMARY KEY (build, number)
 );
 
+#sfdsdfsdfsd
+
 #Creates the table ReservedRooms
 #	with seq as the primary key
 CREATE TABLE Reserved_Rooms(
