@@ -4,6 +4,7 @@
 
 DROP DATABASE IF EXISTS prg04;
 
+#fgdfgd
 #Creates a Database called "prg04"
 CREATE DATABASE prg04;
 
