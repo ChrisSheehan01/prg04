@@ -7,7 +7,7 @@ cnx = mysql.connector.connect(user='root', password='',
 try:
    cursor = cnx.cursor()
    cursor.execute("""
-      select 3 from your_table
+      select 3 from reservationsview
    """)
    result = cursor.fetchall()
    print result
@@ -30,12 +30,12 @@ cursor = cnx.cursor()
     #Database errors (connection problems, invalid dates, transaction errors)
 
 #Get User Input
-room=eval(input('Room (building-number)?:')) #building-number (PPHAC-113)
-date=eval(input('Date (YYYY-MM-DD)?:')) #(YYYY-MM-DD) (2016-04-01)
-time=eval(input('Time (begin-end)?:')) #(begin-end) (10-12)
+room= raw_input('Room (building-number)?:') #building-number (PPHAC-113)
+date= raw_input('Date (YYYY-MM-DD)?:') #(YYYY-MM-DD) (2016-04-01)
+time= raw_input('Time (begin-end)?:') #(begin-end) (10-12)
 
 #prints: room, date, and time (PPHAC-113 2016-04-01 10-12)
-print(room + date + time)
+print(room + " " + date + " " + time)
 
 #Check whether room is available at requested time
 
@@ -57,9 +57,9 @@ print("Not available!")
 #If reservation exists:
     #Display all the info associated with reservation (room, date, time, user)
     #prompt user to confirm operation
-room=eval(input('Room (building-number)?:')) #building-number (PPHAC-113)
-date=eval(input('Date (YYYY-MM-DD)?:')) #(YYYY-MM-DD) (2016-04-01)
-time=eval(input('Time (begin-end)?:')) #(begin-end) (10-12)
+room= raw_input('Room (building-number)?:') #building-number (PPHAC-113)
+date= raw_input('Date (YYYY-MM-DD)?:') #(YYYY-MM-DD) (2016-04-01)
+time= raw_input('Time (begin-end)?:') #(begin-end) (10-12)
 
 
 #//end #3
