@@ -29,22 +29,34 @@ cursor = cnx.cursor()
     #Referential integrity errors (non existent rooms or users)
     #Database errors (connection problems, invalid dates, transaction errors)
 
-#Get User Input
-room= raw_input('Room (building-number)?:') #building-number (PPHAC-113)
-date= raw_input('Date (YYYY-MM-DD)?:') #(YYYY-MM-DD) (2016-04-01)
-time= raw_input('Time (begin-end)?:') #(begin-end) (10-12)
+room = raw_input('Room (building-number)?:') 
+date = raw_input('Date (YYYY-MM-DD)?:')
+time = raw_input('Time (begin-end)?:') 
 
-#prints: room, date, and time (PPHAC-113 2016-04-01 10-12)
-print(room + " " + date + " " + time)
+roomSQL = "SELECT COUNT(*) FROM ReservationsView WHERE room = " + room
+cursor.execute(roomSQL)
+result1 = cursor.fetchone()
+found1 = result1[0]
 
-#Check whether room is available at requested time
+dateSQL = "SELECT COUNT(*) FROM ReservationsView WHERE date = " + date
+cursor.execute(dateSQL)
+result2 = cursor.fetchone()
+found2 = result2[0]
 
-#if available ask for user id, then prompt for confirmation
-print("Reservation confirmed")
+timeSQL = "SELECT COUNT(*) FROM ReservationsView WHERE time = " + time
+cursor.execute(timeSQL)
+result3 = cursor.fetchone()
+found3 = result3[0]
 
-#if not
-print("Not available!")
+if found1 == 0 and found2 == 0 and found3 == 0:
+   print("Room available")
+   user_id = raw_input('Your ID?:')
 
+   #So we need to just make this into a new entry but I can't connect
+   #to sql yet so not sure how to test it. 
+
+else:
+   print("Room not available")
 
 
 #//end #2
