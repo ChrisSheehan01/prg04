@@ -4,15 +4,15 @@ cnx = mysql.connector.connect(user='root', password='',
                               host='127.0.0.1',
                               database='prg04')
 
-try:
-   cursor = cnx.cursor()
-   cursor.execute("""
-      select 3 from reservationsview
-   """)
-   result = cursor.fetchall()
-   print result
-finally:
-    cnx.close()
+# try:
+#    cursor = cnx.cursor()
+#    cursor.execute("""
+#       select 3 from reservationsview
+#    """)
+#    result = cursor.fetchall()
+#    print result
+# finally:
+#     cnx.close()
 
 cursor = cnx.cursor()
 
@@ -21,9 +21,7 @@ cursor = cnx.cursor()
     #Currently in prg04.sql, just does selection from the view ReservationsView
 #//end #1
 reservationsView = "SELECT * FROM ReservationsView"
-cursor.execute(reservationsView)
-
-
+print(cursor.execute(reservationsView))
 
 #2. Make a new Reservation
 
@@ -31,9 +29,9 @@ cursor.execute(reservationsView)
     #Referential integrity errors (non existent rooms or users)
     #Database errors (connection problems, invalid dates, transaction errors)
 
-room = raw_input('Room (building-number)?:') 
-date = raw_input('Date (YYYY-MM-DD)?:')
-time = raw_input('Time (begin-end)?:') 
+room = raw_input("Room (building-number)?: ")
+date = raw_input("Date (YYYY-MM-DD)?: ")
+time = raw_input("Time (begin-end)?: ")
 
 roomSQL = "SELECT COUNT(*) FROM ReservationsView WHERE room = " + room
 cursor.execute(roomSQL)
@@ -111,6 +109,12 @@ else:
 #//end #3
 
 
-
 #4. Quit
+# Make sure data is committed to the database
+cnx.commit()
+
+
+cursor.close()
+cnx.close()
 #//end #4
+
