@@ -4,6 +4,7 @@ cnx = mysql.connector.connect(user='root', password='',
                               host='127.0.0.1',
                               database='prg04')
 
+#Can't get this to work:
 # try:
 #    cursor = cnx.cursor()
 #    cursor.execute("""
@@ -18,10 +19,10 @@ cursor = cnx.cursor()
 
 
 #1. List Reservation
-    #Currently in prg04.sql, just does selection from the view ReservationsView
-#//end #1
+#not printing anything, maybe do it in prg04.sql?
 reservationsView = "SELECT * FROM ReservationsView"
 print(cursor.execute(reservationsView))
+#//end #1
 
 #2. Make a new Reservation
 
