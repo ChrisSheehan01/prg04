@@ -20,6 +20,8 @@ cursor = cnx.cursor()
 #1. List Reservation
     #Currently in prg04.sql, just does selection from the view ReservationsView
 #//end #1
+reservationsView = "SELECT * FROM ReservationsView"
+cursor.execute(reservationsView)
 
 
 
