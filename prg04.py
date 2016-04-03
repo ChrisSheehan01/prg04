@@ -51,9 +51,12 @@ found3 = result3[0]
 if found1 == 0 and found2 == 0 and found3 == 0:
    print("Room available")
    user_id = raw_input('Your ID?:')
+   print("Room reserved")
 
    #So we need to just make this into a new entry but I can't connect
-   #to sql yet so not sure how to test it. 
+   #to sql yet so not sure how to test it. So maybe something like this:
+
+   cursor.execute("""INSERT INTO Reservationsview VALUES (%s,%s,%s)""",(room,date,time))
 
 else:
    print("Room not available")
@@ -69,10 +72,39 @@ else:
 #If reservation exists:
     #Display all the info associated with reservation (room, date, time, user)
     #prompt user to confirm operation
-room= raw_input('Room (building-number)?:') #building-number (PPHAC-113)
-date= raw_input('Date (YYYY-MM-DD)?:') #(YYYY-MM-DD) (2016-04-01)
-time= raw_input('Time (begin-end)?:') #(begin-end) (10-12)
+   
+number = raw_input('Reservation Number?:')
 
+numberSQL = "SELECT COUNT(*) FROM ReservationsView WHERE number = " + number
+cursor.execute(numberSQL)
+idResult = cursor.fetchone()
+foundID = idResult[0]
+
+room = "SELECT room FROM ReservationsView WHERE number = " + number
+cursor.execute(room)
+result1 = cursor.fetchone()
+
+date = "SELECT date FROM ReservationsView WHERE number = " + number
+cursor.execute(date)
+result2 = cursor.fetchone()
+
+time = "SELECT time FROM ReservationsView WHERE number = " + number
+cursor.execute(time)
+result3 = cursor.fetchone()
+
+user = "SELECT user FROM ReservationsView WHERE number = " + number
+cursor.execute(user)
+result4 = cursor.fetchone()
+
+if foundID == 0:
+      print(room + "is reserved to " + user + "on " + date + "from " + time)
+
+      #ask for confirmation
+      #print according to y or n
+
+else:
+   print("Room not found")
+      
 
 #//end #3
 
