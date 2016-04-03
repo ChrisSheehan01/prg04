@@ -5,23 +5,29 @@ cnx = mysql.connector.connect(user='root', password='',
                               database='prg04')
 
 #Can't get this to work:
-# try:
-#    cursor = cnx.cursor()
-#    cursor.execute("""
-#       select 3 from reservationsview
-#    """)
-#    result = cursor.fetchall()
-#    print result
-# finally:
-#     cnx.close()
+try:
+   cursor = cnx.cursor()
+   cursor.execute("""
+      select 3 from reservationsview
+   """)
+   result = cursor.fetchall()
+   print result
+finally:
+    cnx.close()
+
+cnx = mysql.connector.connect(user='root', password='',
+                              host='127.0.0.1',
+                              database='prg04')
 
 cursor = cnx.cursor()
 
 
 #1. List Reservation
 #not printing anything, maybe do it in prg04.sql?
-reservationsView = "SELECT * FROM ReservationsView"
-print(cursor.execute(reservationsView))
+def list_reservations():
+    cursor.execute("SELECT * FROM ReservationsView")
+    for response in cursor:
+        print(response)
 #//end #1
 
 #2. Make a new Reservation
@@ -33,18 +39,18 @@ print(cursor.execute(reservationsView))
 room = raw_input("Room (building-number)?: ")
 date = raw_input("Date (YYYY-MM-DD)?: ")
 time = raw_input("Time (begin-end)?: ")
-
-roomSQL = "SELECT COUNT(*) FROM ReservationsView WHERE room = " + room
+#
+roomSQL = "SELECT COUNT(*) FROM ReservationsView WHERE room = " + "\"" + room + "\""
 cursor.execute(roomSQL)
 result1 = cursor.fetchone()
 found1 = result1[0]
 
-dateSQL = "SELECT COUNT(*) FROM ReservationsView WHERE date = " + date
+dateSQL = "SELECT COUNT(*) FROM ReservationsView WHERE date = " + "\"" + date + "\""
 cursor.execute(dateSQL)
 result2 = cursor.fetchone()
 found2 = result2[0]
 
-timeSQL = "SELECT COUNT(*) FROM ReservationsView WHERE time = " + time
+timeSQL = "SELECT COUNT(*) FROM ReservationsView WHERE time = " + "\"" + time + "\""
 cursor.execute(timeSQL)
 result3 = cursor.fetchone()
 found3 = result3[0]
@@ -62,6 +68,7 @@ if found1 == 0 and found2 == 0 and found3 == 0:
 else:
    print("Room not available")
 
+list_reservations()
 
 #//end #2
 
@@ -73,7 +80,8 @@ else:
 #If reservation exists:
     #Display all the info associated with reservation (room, date, time, user)
     #prompt user to confirm operation
-   
+
+
 number = raw_input('Reservation Number?:')
 
 numberSQL = "SELECT COUNT(*) FROM ReservationsView WHERE number = " + number
