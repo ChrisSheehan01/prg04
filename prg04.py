@@ -1,6 +1,6 @@
 #connecting to database
 import mysql.connector
-cnx = mysql.connector.connect(user='root', password='',
+cnx = mysql.connector.connect(user='root', password='D1313980d',
                               host='127.0.0.1',
                               database='prg04')
 
@@ -14,7 +14,7 @@ try:
 finally:
     cnx.close()
 
-cnx = mysql.connector.connect(user='root', password='',
+cnx = mysql.connector.connect(user='root', password='D1313980d',
                               host='127.0.0.1',
                               database='prg04')
 
@@ -26,6 +26,7 @@ def list_reservations():
     cursor.execute("SELECT * FROM ReservationsView")
     for response in cursor:
         print(response)
+    print('\n')
 
 
 #2. Make a new Reservation
@@ -201,8 +202,8 @@ def make_reservations():
            result4 = cursor.fetchone()
            found4 = result4[0]
            #Goes into here if correct ID is given
-           if found4 > 0:
-               valid_user_id = True
+           if found4 == 0:
+               valid_user_id == True
                find_seq = "SELECT COUNT(*) FROM Reserved_Rooms"
                cursor.execute(find_seq)
                seq = cursor.fetchone()
@@ -252,6 +253,8 @@ def delete_reservations():
        print(found1 + " is reserved to " + found4 + " on " + str(found2) + " from " + found3)
        reply = str(raw_input("Confirm deletion of reservation" +' (y/n): ')).lower().strip()
        if reply[0] == 'y':
+          delete = "Delete FROM Reserved_Rooms WHERE seq = " + "\"" + number + "\""
+          cursor.execute(delete)
           print("Reservation Deleted")
        if reply[0] == 'n':
           print("Reservation not deleted")
