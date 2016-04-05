@@ -1,6 +1,6 @@
 #connecting to database
 import mysql.connector
-cnx = mysql.connector.connect(user='root', password='D1313980d',
+cnx = mysql.connector.connect(user='root', password='',
                               host='127.0.0.1',
                               database='prg04')
 
@@ -14,7 +14,7 @@ try:
 finally:
     cnx.close()
 
-cnx = mysql.connector.connect(user='root', password='D1313980d',
+cnx = mysql.connector.connect(user='root', password='',
                               host='127.0.0.1',
                               database='prg04')
 
