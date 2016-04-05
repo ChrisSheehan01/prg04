@@ -208,7 +208,6 @@ def make_reservations():
                seq = cursor.fetchone()
                print("Room reserved")
                cursor.execute('INSERT INTO Reserved_Rooms VALUES (%s, %s, %s, %s, %s, %s, %s)',(seq[0],date,begin_time,end_time,user_id,build,number))
-               list_reservations()
            else:
                print("Invalid ID")
 
@@ -260,52 +259,17 @@ def delete_reservations():
        print("Room not found")
 
 
-# #UNFINISHED
-# #3. Delete a reservation
-# #Ask user for reservation number
-# #If reservation exists:
-#     #Display all the info associated with reservation (room, date, time, user)
-#     #prompt user to confirm operation
-# def delete_reservations():
-#     number = raw_input('Reservation Number?:')
-#
-#     numberSQL = "SELECT COUNT(*) FROM ReservationsView WHERE number = " + number
-#     cursor.execute(numberSQL)
-#     idResult = cursor.fetchone()
-#     foundID = idResult[0]
-#
-#     room = "SELECT room FROM ReservationsView WHERE number = " + number
-#     cursor.execute(room)
-#     result1 = cursor.fetchone()
-#
-#     date = "SELECT date FROM ReservationsView WHERE number = " + number
-#     cursor.execute(date)
-#     result2 = cursor.fetchone()
-#
-#     time = "SELECT time FROM ReservationsView WHERE number = " + number
-#     cursor.execute(time)
-#     result3 = cursor.fetchone()
-#
-#     user = "SELECT user FROM ReservationsView WHERE number = " + number
-#     cursor.execute(user)
-#     result4 = cursor.fetchone()
-#
-#     if foundID == 0:
-#           print(room + "is reserved to " + user + "on " + date + "from " + time)
-#
-#           #ask for confirmation
-#           #print according to y or n
-#
-#     else:
-#        print("Room not found")
-
-
 #Calls #1
 list_reservations()
 #Calls #2
 make_reservations()
+#Calls #1
+list_reservations()
 #Calls #3
 delete_reservations()
+#Calls #1
+list_reservations()
+
 
 
 #4. Quit
