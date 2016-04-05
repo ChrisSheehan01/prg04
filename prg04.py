@@ -216,7 +216,6 @@ def make_reservations():
        print("Room not available")
 
 
-#UNFINISHED
 #3. Delete a reservation
 #Ask user for reservation number
 #If reservation exists:
@@ -225,37 +224,80 @@ def make_reservations():
 def delete_reservations():
     number = raw_input('Reservation Number?:')
 
-    numberSQL = "SELECT COUNT(*) FROM ReservationsView WHERE number = " + number
+    numberSQL = "SELECT COUNT(*) FROM ReservationsView WHERE number = " + "\"" + number + "\""
     cursor.execute(numberSQL)
     idResult = cursor.fetchone()
     foundID = idResult[0]
 
-    room = "SELECT room FROM ReservationsView WHERE number = " + number
+    room = "SELECT room FROM ReservationsView WHERE number = " + "\"" + number + "\""
     cursor.execute(room)
     result1 = cursor.fetchone()
+    found1 = result1[0]
 
-    date = "SELECT date FROM ReservationsView WHERE number = " + number
+    date = "SELECT date FROM ReservationsView WHERE number = " + "\"" + number + "\""
     cursor.execute(date)
     result2 = cursor.fetchone()
+    found2 = result2[0]
 
-    time = "SELECT time FROM ReservationsView WHERE number = " + number
+    time = "SELECT time FROM ReservationsView WHERE number = " + "\"" + number + "\""
     cursor.execute(time)
     result3 = cursor.fetchone()
+    found3 = result3[0]
 
-    user = "SELECT user FROM ReservationsView WHERE number = " + number
+    user = "SELECT user FROM ReservationsView WHERE number = " + "\"" + number + "\""
     cursor.execute(user)
     result4 = cursor.fetchone()
+    found4 = result4[0]
 
-    if foundID == 0:
-          print(room + "is reserved to " + user + "on " + date + "from " + time)
-
-          #ask for confirmation
-          #print according to y or n
-
+    if foundID > 0:
+       print(found1 + " is reserved to " + found4 + " on " + str(found2) + " from " + found3)
+       reply = str(raw_input("Confirm deletion of reservation" +' (y/n): ')).lower().strip()
+       if reply[0] == 'y':
+          print("Reservation Deleted")
+       if reply[0] == 'n':
+          print("Reservation not deleted")
     else:
        print("Room not found")
 
 
+# #UNFINISHED
+# #3. Delete a reservation
+# #Ask user for reservation number
+# #If reservation exists:
+#     #Display all the info associated with reservation (room, date, time, user)
+#     #prompt user to confirm operation
+# def delete_reservations():
+#     number = raw_input('Reservation Number?:')
+#
+#     numberSQL = "SELECT COUNT(*) FROM ReservationsView WHERE number = " + number
+#     cursor.execute(numberSQL)
+#     idResult = cursor.fetchone()
+#     foundID = idResult[0]
+#
+#     room = "SELECT room FROM ReservationsView WHERE number = " + number
+#     cursor.execute(room)
+#     result1 = cursor.fetchone()
+#
+#     date = "SELECT date FROM ReservationsView WHERE number = " + number
+#     cursor.execute(date)
+#     result2 = cursor.fetchone()
+#
+#     time = "SELECT time FROM ReservationsView WHERE number = " + number
+#     cursor.execute(time)
+#     result3 = cursor.fetchone()
+#
+#     user = "SELECT user FROM ReservationsView WHERE number = " + number
+#     cursor.execute(user)
+#     result4 = cursor.fetchone()
+#
+#     if foundID == 0:
+#           print(room + "is reserved to " + user + "on " + date + "from " + time)
+#
+#           #ask for confirmation
+#           #print according to y or n
+#
+#     else:
+#        print("Room not found")
 
 
 #Calls #1
@@ -263,7 +305,7 @@ list_reservations()
 #Calls #2
 make_reservations()
 #Calls #3
-#delete_reservations()
+delete_reservations()
 
 
 #4. Quit
