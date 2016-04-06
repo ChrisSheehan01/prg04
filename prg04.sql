@@ -30,7 +30,7 @@ PRIMARY KEY (build, number)
 #Creates the table ReservedRooms
 #	with seq as the primary key
 CREATE TABLE Reserved_Rooms(
-seq INT NOT NULL,
+seq INT NOT NULL AUTO_INCREMENT,
 date DATE,
 begin INT,
 end INT,
@@ -58,8 +58,8 @@ INSERT INTO Rooms VALUES
 #Inserts the following tuples into the Reserved_Rooms table
 INSERT INTO Reserved_Rooms VALUES
 #both ways of inputting date are wrong
-(1, "2016-03-20", 08, 09, 1, "PPHAC", 113),
-(2, "2016-04-01", 08, 10, 2, "PPHAC", 114);
+(0, "2016-03-20", 08, 09, 1, "PPHAC", 113),
+(0, "2016-04-01", 08, 10, 2, "PPHAC", 114);
 
 #Creates View, ReservationsView
 #	Lists all reservations and user names

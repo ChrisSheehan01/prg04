@@ -26,7 +26,6 @@ def list_reservations():
     cursor.execute("SELECT * FROM ReservationsView")
     for response in cursor:
         print(response)
-    print('\n')
 
 
 #2. Make a new Reservation
@@ -187,6 +186,7 @@ def make_reservations():
     result3 = cursor.fetchone()
     found3 = result3[0]
 
+    list_reservations()
 
     #Confirms if room, date, and time are available
     if found1 == 0 or found2 == 0 or found3 == 0:
@@ -202,13 +202,18 @@ def make_reservations():
            result4 = cursor.fetchone()
            found4 = result4[0]
            #Goes into here if correct ID is given
-           if found4 == 0:
-               valid_user_id == True
-               find_seq = "SELECT COUNT(*) FROM Reserved_Rooms"
-               cursor.execute(find_seq)
-               seq = cursor.fetchone()
-               print("Room reserved")
-               cursor.execute('INSERT INTO Reserved_Rooms VALUES (%s, %s, %s, %s, %s, %s, %s)',(seq[0],date,begin_time,end_time,user_id,build,number))
+           if found4 > 0:
+               valid_user_id = True
+               reply = str(raw_input("Confirm reservation" +' (y/n): ')).lower().strip()
+               if reply[0] == 'y':
+                   find_seq = "SELECT COUNT(*) FROM Reserved_Rooms"
+                   cursor.execute(find_seq)
+                   seq = cursor.fetchone()
+                   cursor.execute('INSERT INTO Reserved_Rooms VALUES (%s, %s, %s, %s, %s, %s, %s)',(seq[0]+1,date,begin_time,end_time,user_id,build,number))
+                   room_reserved = cursor.fetchone()
+                   print("Room reserved\n")
+               if reply[0] == 'n':
+                   print("Reservation not made\n")
            else:
                print("Invalid ID")
 
