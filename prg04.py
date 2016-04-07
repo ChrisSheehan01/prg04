@@ -172,28 +172,18 @@ def make_reservations():
 
 
     #Prints out requested room, date, & time if all in valid format
-    print("Checking if " + room + " is available on " + date + " from " + time)
+    print("Checking if " + room + " is available on " + date + " from " + time + "...")
 
 
     #Gets info to check if the room is available
-    roomSQL = "SELECT COUNT(*) FROM ReservationsView WHERE room = " + "\"" + room + "\""
+    roomSQL = "SELECT COUNT(*) FROM ReservationsView WHERE room = " + "\"" + room + "\"" + " AND date = " \
+              + "\"" + date + "\"" + " AND time = " + "\"" + new_time + "\""
     cursor.execute(roomSQL)
     result1 = cursor.fetchone()
     found1 = result1[0]
-    #Gets info to check if date is available
-    dateSQL = "SELECT COUNT(*) FROM ReservationsView WHERE date = " + "\"" + date + "\""
-    cursor.execute(dateSQL)
-    result2 = cursor.fetchone()
-    found2 = result2[0]
-    #Gets info to check if time is available
-
-    timeSQL = "SELECT COUNT(*) FROM ReservationsView WHERE time = " + "\"" + new_time + "\""
-    cursor.execute(timeSQL)
-    result3 = cursor.fetchone()
-    found3 = result3[0]
 
     #Confirms if room, date, and time are available
-    if found1 == 0 or found2 == 0 or found3 == 0:
+    if found1 == 0:# or found2 == 0 or found3 == 0:
        print("Room available at requested date and time")
 
        valid_user_id = False
@@ -207,30 +197,34 @@ def make_reservations():
            found4 = result4[0]
            #Goes into here if correct ID is given
            if found4 > 0:
-               cnx.start_transaction()
+               #maybe something about isolation here
                valid_user_id = True
-               reply = "X"
-               while reply != "y" or reply != "n":
+               loop = True
+               while loop: #reply[0] != "y" or reply[0] != "n":#
                    reply = str(raw_input("Confirm reservation" +' (y/n): ')).lower().strip()
                    if reply[0] == 'y':
+                       loop = False
                        find_seq = "SELECT COUNT(*) FROM Reserved_Rooms"
                        cursor.execute(find_seq)
                        seq = cursor.fetchone()
                        cursor.execute('INSERT INTO Reserved_Rooms VALUES (%s, %s, %s, %s, %s, %s, %s)',(seq[0]+1,date,begin_time,end_time,user_id,build,number))
-                       #room_reserved = cursor.fetchone()
+                       cnx.commit()
                        quit_system()
                        print("Room reserved\n")
-                   if reply[0] == 'n':
+                   elif reply[0] == 'n':
+                       loop = False
                        commit_rollback_change()
                        quit_system()
                        print("Reservation not made\n")
                    else:
+                       loop = True
                        print "Wrong input, type either (y/n)"
            else:
                print("Invalid ID")
 
     else:
        print("Room not available")
+       print("")
 
 
 #3. Delete a reservation
@@ -268,22 +262,27 @@ def delete_reservations():
         found4 = result4[0]
 
     if foundID > 0:
-       #cnx.start_transaction()
+       #maybe something about isolation here
        print(found1 + " is reserved to " + found4 + " on " + str(found2) + " from " + found3)
-       reply = str(raw_input("Confirm deletion of reservation" +' (y/n): ')).lower().strip()
-       while reply != "y" or reply != "n":
+       loop2 = True
+       while loop2:
+           reply = str(raw_input("Confirm deletion of reservation" +' (y/n): ')).lower().strip()
            if reply[0] == 'y':
+              loop2 = False
               delete = "Delete FROM Reserved_Rooms WHERE seq = " + "\"" + number + "\""
               cursor.execute(delete)
+              cnx.commit()
               quit_system()
               print("Reservation Deleted")
               print("")
-           if reply[0] == 'n':
+           elif reply[0] == 'n':
+              loop2 = False
               commit_rollback_change()
               quit_system()
               print("Reservation not deleted")
               print("")
            else:
+               loop2 = True
                print "Wrong input, type either (y/n)"
     else:
        print("Reservation not found")
@@ -304,6 +303,9 @@ running = True
 
 started = False
 
+#start transaction when they call the numbers
+#commit when they say yes to shit
+
 #Input System
 while running == True:
     print("1. List reservations\n"
@@ -317,6 +319,7 @@ while running == True:
     elif user_input == "2":
         if not started:
             started = True
+            cnx.start_transaction()
             #Calls #2
             make_reservations()
         else:
@@ -324,20 +327,21 @@ while running == True:
     elif user_input == "3":
         if not started:
             started = True
+            cnx.start_transaction()
             #Calls #3
             delete_reservations()
         else:
             delete_reservations()
     elif user_input == "4":
-        if not started:
-            started = True
-            cnx.start_transaction()
-            #Calls #4
-            quit_system()
-            cursor.close()
-            cnx.close()
-            running = False
-        else:
+        # if not started:
+        #     started = True
+        #     cnx.start_transaction()
+        #     #Calls #4
+        #     quit_system()
+        #     cursor.close()
+        #     cnx.close()
+        #     running = False
+        # else:
             quit_system()
             cursor.close()
             cnx.close()
