@@ -203,14 +203,17 @@ def make_reservations():
                while loop: #reply[0] != "y" or reply[0] != "n":#
                    reply = str(raw_input("Confirm reservation" +' (y/n): ')).lower().strip()
                    if reply[0] == 'y':
-                       loop = False
-                       find_seq = "SELECT COUNT(*) FROM Reserved_Rooms"
-                       cursor.execute(find_seq)
-                       seq = cursor.fetchone()
-                       cursor.execute('INSERT INTO Reserved_Rooms VALUES (%s, %s, %s, %s, %s, %s, %s)',(seq[0]+1,date,begin_time,end_time,user_id,build,number))
-                       cnx.commit()
-                       quit_system()
-                       print("Room reserved\n")
+                       try:
+                           loop = False
+                           find_seq = "SELECT COUNT(*) FROM Reserved_Rooms"
+                           cursor.execute(find_seq)
+                           seq = cursor.fetchone()
+                           cursor.execute('INSERT INTO Reserved_Rooms VALUES (%s, %s, %s, %s, %s, %s, %s)',(seq[0]+1,date,begin_time,end_time,user_id,build,number))
+                           cnx.commit()
+                           quit_system()
+                           print("Room reserved\n")
+                       except Exception as e:
+                           print "Another user's transaction is in progress, try again later"
                    elif reply[0] == 'n':
                        loop = False
                        commit_rollback_change()
@@ -268,13 +271,16 @@ def delete_reservations():
        while loop2:
            reply = str(raw_input("Confirm deletion of reservation" +' (y/n): ')).lower().strip()
            if reply[0] == 'y':
-              loop2 = False
-              delete = "Delete FROM Reserved_Rooms WHERE seq = " + "\"" + number + "\""
-              cursor.execute(delete)
-              cnx.commit()
-              quit_system()
-              print("Reservation Deleted")
-              print("")
+              try:
+                  loop2 = False
+                  delete = "Delete FROM Reserved_Rooms WHERE seq = " + "\"" + number + "\""
+                  cursor.execute(delete)
+                  cnx.commit()
+                  quit_system()
+                  print("Reservation Deleted")
+                  print("")
+              except Exception as e:
+                  print "Another user's transaction is in progress, try again later"
            elif reply[0] == 'n':
               loop2 = False
               commit_rollback_change()
@@ -303,9 +309,6 @@ running = True
 
 started = False
 
-#start transaction when they call the numbers
-#commit when they say yes to shit
-
 #Input System
 while running == True:
     print("1. List reservations\n"
@@ -315,7 +318,13 @@ while running == True:
           )
     user_input = raw_input("Pick an option: ")
     if user_input == "1":
-        list_reservations()
+        if not started:
+            started = True
+            cnx.start_transaction()
+            #Calls #2
+            list_reservations()
+        else:
+            list_reservations()
     elif user_input == "2":
         if not started:
             started = True
@@ -333,23 +342,9 @@ while running == True:
         else:
             delete_reservations()
     elif user_input == "4":
-        # if not started:
-        #     started = True
-        #     cnx.start_transaction()
-        #     #Calls #4
-        #     quit_system()
-        #     cursor.close()
-        #     cnx.close()
-        #     running = False
-        # else:
-            quit_system()
-            cursor.close()
-            cnx.close()
-            running = False
+        quit_system()
+        cursor.close()
+        cnx.close()
+        running = False
     else:
         print("Invalid input, please give a number from 1 to 4")
-
-
-#End Input System
-
-
