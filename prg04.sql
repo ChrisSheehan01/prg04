@@ -1,4 +1,4 @@
-#Chris Sheehan & Dan "The Man's" Howard
+#Chris Sheehan & Dan Howard
 #April 3, 2016
 #Programming Assignment 4
 
@@ -38,8 +38,6 @@ user_id INT,
 build VARCHAR(10),
 roomNum INT,
 FOREIGN KEY (user_id) REFERENCES Users (id),
-#impossible
-#FOREIGN KEY (roomNum) REFERENCES Rooms (number),
 FOREIGN KEY (build) REFERENCES Rooms (build),
 PRIMARY KEY (seq)
 );
