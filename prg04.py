@@ -209,7 +209,6 @@ def make_reservations():
                            cursor.execute(find_seq)
                            seq = cursor.fetchone()
                            cursor.execute('INSERT INTO Reserved_Rooms VALUES (%s, %s, %s, %s, %s, %s, %s)',(seq[0]+1,date,begin_time,end_time,user_id,build,number))
-                           #cnx.commit()
                            quit_system()
                            print("Room reserved\n")
                        except Exception as e:
@@ -275,7 +274,6 @@ def delete_reservations():
                   loop2 = False
                   delete = "Delete FROM Reserved_Rooms WHERE seq = " + "\"" + number + "\""
                   cursor.execute(delete)
-                  #cnx.commit()
                   quit_system()
                   print("Reservation Deleted")
                   print("")
