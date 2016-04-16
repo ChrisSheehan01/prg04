@@ -4,6 +4,7 @@
 
 DROP DATABASE IF EXISTS prg04;
 
+#fgdfgd
 #Creates a Database called "prg04"
 CREATE DATABASE prg04;
 
@@ -26,6 +27,8 @@ build VARCHAR(10) NOT NULL,
 number INT NOT NULL,
 PRIMARY KEY (build, number)
 );
+
+#sfdsdfsdfsddfgdfg
 
 #Creates the table ReservedRooms
 #	with seq as the primary key
